@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
+/**
+ * Prevent page rendering if user ins't authenticated
+ */
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: status }: any = useSession();
   const router = useRouter();

@@ -15,6 +15,7 @@ export const authOptions: AuthOptions = {
     credential: cert({
       projectId: process.env.FIREBASE_PROJECT_ID,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      // we had the replace to remove indentation of the private key from downloaded file
       privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
     }),
   }) as Adapter,

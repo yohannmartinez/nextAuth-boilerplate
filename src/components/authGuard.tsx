@@ -2,27 +2,39 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import routes from "@/lib/routes";
+import { Session } from "next-auth";
 
 /**
  * Prevent page rendering if user ins't authenticated
  */
-export default function AuthGuard({ children }: { children: React.ReactNode }) {
+export default function AuthGuard({
+  children,
+  session,
+}: {
+  children: React.ReactNode;
+  session: Session | null;
+}) {
   const { data: status }: any = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState<boolean>(true);
 
-  const guestRoutes: string[] = ["/login", "/register"];
-
   useEffect(() => {
-    const isGuestRoute = !!guestRoutes.find((route) => route === pathname);
+    const isAuthenticatedRoute = !!routes.authenticated.find(
+      (route) => route === pathname
+    );
+    const isUnauthenticatedRoute = !!routes.unauthenticated.find(
+      (route) => route === pathname
+    );
+    const isUserAuthenticated = session;
     setLoading(true);
 
     if (status === "loading") {
       return;
-    } else if (status === "authenticated" && isGuestRoute) {
-      router.push("/");
-    } else if (status === "unauthenticated" && !isGuestRoute) {
+    } else if (isUserAuthenticated && isUnauthenticatedRoute) {
+      router.push("/home");
+    } else if (!isUserAuthenticated && isAuthenticatedRoute) {
       router.push("/login");
     } else {
       setLoading(false);

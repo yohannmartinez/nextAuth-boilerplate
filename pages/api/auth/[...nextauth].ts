@@ -9,6 +9,15 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      async profile(profile) {
+        return {
+          id: profile.sub,
+          email: profile.email,
+          image: profile.picture,
+          name: profile.name,
+          age: null,
+        };
+      },
     }),
   ],
   adapter: FirestoreAdapter({

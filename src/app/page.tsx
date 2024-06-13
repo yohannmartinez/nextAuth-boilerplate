@@ -1,22 +1,46 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import {
+  Flex,
+  Text,
+  Button,
+  Container,
+  Heading,
+  Box,
+  Card,
+  Strong,
+} from "@radix-ui/themes";
 
 export default function Home() {
   const session = useSession();
 
-  console.log(session);
-
   return (
-    <>
-      {session.status === "unauthenticated" && (
-        <button onClick={() => signIn("google")}>Login</button>
-      )}
-      {session.status === "authenticated" && (
-        <>
-          <div>{session?.data?.user?.name}</div>
-          <button onClick={() => signOut()}>logout</button>
-        </>
-      )}
-    </>
+    <Container>
+      <Flex
+        direction={"column"}
+        align={"center"}
+        justify={"center"}
+        minHeight={"100vh"}
+      >
+        <Box maxWidth={"400px"}>
+          <Box maxWidth={"400px"}>
+            <Heading size={"9"} align={"center"} highContrast>
+              Bienvenue sur StarQuiz
+            </Heading>
+          </Box>
+
+          <Box my={"9"}>
+            <Card>
+              <Flex justify={"between"} align={"center"}>
+                <Text color={"gray"}>
+                  Connexion avec <Strong>Google</Strong>
+                </Text>
+                <Button onClick={() => signIn("google")}>Connexion</Button>
+              </Flex>
+            </Card>
+          </Box>
+        </Box>
+      </Flex>
+    </Container>
   );
 }

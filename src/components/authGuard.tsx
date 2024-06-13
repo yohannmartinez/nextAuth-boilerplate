@@ -35,7 +35,7 @@ export default function AuthGuard({
     } else if (isUserAuthenticated && isUnauthenticatedRoute) {
       router.push("/home");
     } else if (!isUserAuthenticated && isAuthenticatedRoute) {
-      router.push("/login");
+      router.push("/");
     } else {
       setLoading(false);
     }

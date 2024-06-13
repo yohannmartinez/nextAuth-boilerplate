@@ -8,7 +8,7 @@ const routes: {
   unauthenticated: string[];
 } = {
   authenticated: ["/home"],
-  unauthenticated: ["/login"],
+  unauthenticated: ["/"],
 };
 
 export default routes;

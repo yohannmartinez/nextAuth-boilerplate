@@ -17,7 +17,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers session={session}>
+        <Providers>
           <AuthGuard session={session}>{children}</AuthGuard>
         </Providers>
       </body>

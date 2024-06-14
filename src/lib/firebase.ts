@@ -1,4 +1,5 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
 // Firebase app initialization to use firestore db in front
@@ -14,5 +15,6 @@ const firebaseConfig = {
 // Check if app exist to not run it twice
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore();
+const storage = getStorage(app);
 
-export { app, db };
+export { app, db, storage };

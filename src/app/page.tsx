@@ -1,5 +1,5 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import {
   Flex,
   Text,
@@ -12,10 +12,8 @@ import {
 } from "@radix-ui/themes";
 
 export default function Home() {
-  const session = useSession();
-
   return (
-    <Container>
+    <Container px={"3"}>
       <Flex
         direction={"column"}
         align={"center"}
@@ -32,7 +30,7 @@ export default function Home() {
           <Box my={"9"}>
             <Card>
               <Flex justify={"between"} align={"center"}>
-                <Text color={"gray"}>
+                <Text>
                   Connexion avec <Strong>Google</Strong>
                 </Text>
                 <Button onClick={() => signIn("google")}>Connexion</Button>

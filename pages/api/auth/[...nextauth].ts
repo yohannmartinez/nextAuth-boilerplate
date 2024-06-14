@@ -16,6 +16,7 @@ export const authOptions: AuthOptions = {
           image: profile.picture,
           name: profile.name,
           age: null,
+          picture: null,
         };
       },
     }),
@@ -28,5 +29,16 @@ export const authOptions: AuthOptions = {
       privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
     }),
   }) as Adapter,
+  callbacks: {
+    session: ({ session, token, user }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+    },
+  },
 };
 export default NextAuth(authOptions);

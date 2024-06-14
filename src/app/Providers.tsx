@@ -7,10 +7,9 @@ import "@radix-ui/themes/styles.css";
 
 type Props = {
   children: React.ReactNode;
-  session: Session | null;
 };
 
-export default function Providers({ children, session }: Props) {
+export default function Providers({ children }: Props) {
   return (
     <Provider>
       <Theme appearance="light" grayColor="olive">

@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import routes from "@/lib/routes";
 import { Session } from "next-auth";
+import LoadingScreen from "./loadingScreen";
 
 /**
  * Prevent page rendering if user ins't authenticated
@@ -41,5 +42,5 @@ export default function AuthGuard({
     }
   }, [pathname, status]);
 
-  return loading ? <div>Loading...</div> : <>{children}</>;
+  return loading ? <LoadingScreen /> : <>{children}</>;
 }

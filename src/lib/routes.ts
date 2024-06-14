@@ -7,7 +7,7 @@ const routes: {
   authenticated: string[];
   unauthenticated: string[];
 } = {
-  authenticated: ["/home"],
+  authenticated: ["/home", "/rules"],
   unauthenticated: ["/"],
 };
 

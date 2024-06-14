@@ -4,33 +4,42 @@ import { db } from "@/lib/firebase";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { DocumentData } from "firebase-admin/firestore";
 import LoadingScreen from "@/components/loadingScreen";
 import ErrorScreen from "@/components/errorScreen";
 import { useRouter } from "next/navigation";
+import { User } from "../../../types/user";
 
 export default function Page(): React.ReactNode | void {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [user, setUser] = useState<DocumentData | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
   const [isThereError, setIsThereError] = useState<Boolean>(false);
 
   useEffect(() => {
     (async () => {
       if (session) {
-        const snap = await getDoc(doc(db, "users", session.user.id));
-        const data = snap.data();
-        console.log(snap.exists());
-        return snap.exists() ? setUser(data) : setIsThereError(true);
+        try {
+          const snap = await getDoc(doc(db, "users", session.user.id));
+          const data = snap.data() as User | undefined;
+          if (snap.exists()) {
+            setUser(data);
+          } else {
+            setIsThereError(true);
+          }
+        } catch (error) {
+          console.error("Error fetching user data: ", error);
+          setIsThereError(true);
+        }
       }
     })();
-  }, []);
+  }, [session]);
 
-  if (status === "loading") return <LoadingScreen />;
+  if (status === "loading" || !user) return <LoadingScreen />;
 
   if (status === "authenticated" && isThereError) return <ErrorScreen />;
 
-  if (!user?.age || !user?.picture) return router.push("/rules");
+  if (user && (!user?.age || !user?.picture || !user?.planetId))
+    return router.push("/rules");
 
   if (user)
     return (

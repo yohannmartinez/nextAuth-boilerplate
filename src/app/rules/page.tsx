@@ -10,12 +10,15 @@ import { db } from "@/lib/firebase";
 import steps from "./steps";
 import Rules from "./rules";
 import MomentCapture from "./momentCapture";
+import Age from "./age";
 
 export default function Page() {
   const { data: session } = useSession();
   const { state, uploadImage } = useFirebaseImageUpload();
   const [step, setStep] = useState<number>(0);
   const [isUploadLoading, setIsUploadLoading] = useState<boolean>(false);
+  const [hasUploadImage, setHasUploadImage] = useState<boolean>(false);
+  const isLookingTutorial = step + 1 <= steps.length;
 
   const handleImageUpload = async (imageSrc: string): Promise<void> => {
     setIsUploadLoading(true);
@@ -31,6 +34,7 @@ export default function Page() {
           picture: state.url,
         });
         setIsUploadLoading(false);
+        setHasUploadImage(true);
       }
     })();
   }, [state, session]);
@@ -42,13 +46,17 @@ export default function Page() {
       justify={"center"}
       minHeight={"100vh"}
     >
-      {step + 1 <= steps.length && <Rules step={step} setStep={setStep} />}
+      {isLookingTutorial && <Rules step={step} setStep={setStep} />}
 
-      {step + 1 > steps.length && (
+      {!isLookingTutorial && !hasUploadImage && (
         <MomentCapture
           handleImageUpload={handleImageUpload}
           isUploadLoading={isUploadLoading}
         />
+      )}
+
+      {!isLookingTutorial && hasUploadImage && (
+        <Age userId={session?.user.id} email={session?.user.email} />
       )}
     </Flex>
   );

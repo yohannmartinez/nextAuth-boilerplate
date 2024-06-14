@@ -17,6 +17,7 @@ export const authOptions: AuthOptions = {
           name: profile.name,
           age: null,
           picture: null,
+          planetId: null,
         };
       },
     }),

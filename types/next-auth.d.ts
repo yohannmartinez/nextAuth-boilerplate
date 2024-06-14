@@ -10,11 +10,13 @@ declare module "next-auth" {
       id: string;
       age: number | null | undefined;
       picture: string | null | undefined;
+      planetId: string | null | undefined;
     } & DefaultSession["user"];
   }
   interface User {
     id: string;
     age: number | null | undefined;
     picture: string | null | undefined;
+    planetId: string | null | undefined;
   }
 }
